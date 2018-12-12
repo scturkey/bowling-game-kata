@@ -2,13 +2,12 @@ package org.scturkey.kata;
 
 public class Game {
 
-    private Library library;
 
-    public Game(Library library) {
-        this.library = library;
+    public int score() {
+        return 0;
     }
 
-    public boolean doSomeStuff() {
-        return library.someLibraryMethod();
+    public void roll(int knockedDownPins) {
+
     }
 }
