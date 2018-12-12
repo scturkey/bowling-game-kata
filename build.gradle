@@ -1,0 +1,64 @@
+buildscript {
+    ext {
+        version_slf4j = '1.7.25'
+        version_logback = '1.2.3'
+        version_junit5 = '5.3.1'
+        version_junit5_suite = '1.2.0'
+        version_assertJ = '3.10.0'
+        version_mockito = '2.21.0'
+        version_commonsLang3 = '3.7'
+    }
+    repositories {
+        jcenter()
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+repositories {
+    jcenter()
+    google()
+    mavenCentral()
+    maven { url "https://dl.bintray.com/groovy/maven" }
+    maven { url "https://plugins.gradle.org/m2/" }
+    maven { url "https://repo.spring.io/snapshot" }
+    maven { url "https://repository.mulesoft.org/nexus/content/repositories/public/" }
+    maven { url "http://repo.spring.io/milestone/" }
+}
+
+
+dependencies {
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: rootProject.version_commonsLang3
+    compile group: 'org.slf4j', name: 'jcl-over-slf4j', version: rootProject.version_slf4j
+    compile group: 'org.slf4j', name: 'log4j-over-slf4j', version: rootProject.version_slf4j
+    compile group: 'org.slf4j', name: 'slf4j-api', version: rootProject.version_slf4j
+    compile group: 'ch.qos.logback', name: 'logback-classic', version: rootProject.version_logback
+
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: rootProject.version_junit5
+    testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: rootProject.version_junit5
+    testCompile group: 'org.junit.platform', name: 'junit-platform-suite-api', version: rootProject.version_junit5_suite
+    testCompile group: 'org.assertj', name: 'assertj-core', version: rootProject.version_assertJ
+    testCompile group: 'org.mockito', name: 'mockito-core', version: rootProject.version_mockito
+    testCompile group: 'org.mockito', name: 'mockito-junit-jupiter', version: rootProject.version_mockito
+}
+
+idea {
+    module {
+        inheritOutputDirs = false
+        outputDir = compileJava.destinationDir
+        testOutputDir = compileTestJava.destinationDir
+        downloadJavadoc = false
+        downloadSources = true
+    }
+}
+
+test {
+    failFast true
+    useJUnitPlatform {
+        includeEngines 'junit-jupiter'
+    }
+}
