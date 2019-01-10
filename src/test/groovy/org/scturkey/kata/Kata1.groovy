@@ -21,16 +21,16 @@ class Kata1 extends Specification {
 
     def "should not find ayn rejected transaction when transaction below limit"() {
         expect:
-        size == findRejectedTransactions(transactionList, creditLimit).size()
+        rejectedTransactions == findRejectedTransactions(transactionList, creditLimit)
 
         where:
-        transactionList                                                                                           | creditLimit | size
-        []                                                                                                        | 100         | 0
-        ["John,Doe,john@doe.com,100,TR0001"]                                                                      | 100         | 0
-        ["John,Doe,john@doe.com,101,TR0001"]                                                                      | 100         | 1
-        ["John,Doe,john@doe.com,100,TR0001", "John,Doe,john@doe.com,1,TR0001"]                                    | 100         | 1
-        ["John,Doe,john@doe.com,100,TR0001", "John,Doe,john@doe.com,1,TR0001"]                                    | 100         | 1
-        ["John,Doe,john@doe.com,50,TR0001", "John,Doe,john@doe.com,1,TR0001", "John,Doe,john2@doe.com,51,TR0001"] | 100         | 0
+        transactionList                                                                                           | creditLimit | rejectedTransactions
+        []                                                                                                        | 100         | []
+        ["John,Doe,john@doe.com,100,TR0001"]                                                                      | 100         | []
+        ["John,Doe,john@doe.com,101,TR0001"]                                                                      | 100         | ["John,Doe,john@doe.com,101,TR0001"]
+        ["John,Doe,john@doe.com,100,TR0001", "John,Doe,john@doe.com,1,TR0001"]                                    | 100         | ["John,Doe,john@doe.com,1,TR0001"]
+        ["John,Doe,john@doe.com,50,TR0001", "John,Doe,john@doe.com,1,TR0001"]                                     | 100         | []
+        ["John,Doe,john@doe.com,50,TR0001", "John,Doe,john@doe.com,1,TR0001", "John,Doe,john2@doe.com,51,TR0001"] | 100         | []
 
     }
 
