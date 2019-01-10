@@ -24,20 +24,34 @@ class Kata1 extends Specification {
         size == findRejectedTransactions(transactionList, creditLimit).size()
 
         where:
-        transactionList                                                        | creditLimit | size
-        []                                                                     | 100         | 0
-        ["John,Doe,john@doe.com,100,TR0001"]                                   | 100         | 0
-        ["John,Doe,john@doe.com,101,TR0001"]                                   | 100         | 1
-        ["John,Doe,john@doe.com,100,TR0001", "John,Doe,john@doe.com,1,TR0001"] | 100         | 1
+        transactionList                                                                                           | creditLimit | size
+        []                                                                                                        | 100         | 0
+        ["John,Doe,john@doe.com,100,TR0001"]                                                                      | 100         | 0
+        ["John,Doe,john@doe.com,101,TR0001"]                                                                      | 100         | 1
+        ["John,Doe,john@doe.com,100,TR0001", "John,Doe,john@doe.com,1,TR0001"]                                    | 100         | 1
+        ["John,Doe,john@doe.com,100,TR0001", "John,Doe,john@doe.com,1,TR0001"]                                    | 100         | 1
+        ["John,Doe,john@doe.com,50,TR0001", "John,Doe,john@doe.com,1,TR0001", "John,Doe,john2@doe.com,51,TR0001"] | 100         | 0
 
     }
 
     List findRejectedTransactions(List<String> transactionList, int creditLimit) {
-        def sum = 0
+        def sumOfTransactionAmountByUser = [:]
+
         return transactionList.findAll { it ->
-            def transactionAmount = valueOf(it.split(",")[3])
-            sum += transactionAmount
-            creditLimit < sum
+            def splittedTransaction = it.split(",")
+            def identifier = splittedTransaction[0] + splittedTransaction[1] + splittedTransaction[2]
+            def transactionAmount = valueOf(splittedTransaction[3])
+
+
+            def sumOfTransaction = sumOfTransactionAmountByUser[identifier]
+
+            if (sumOfTransaction) {
+                sumOfTransactionAmountByUser[identifier] = sumOfTransaction + transactionAmount
+            } else {
+                sumOfTransactionAmountByUser[identifier] = transactionAmount
+            }
+
+            creditLimit < sumOfTransactionAmountByUser[identifier]
         }
     }
 }
