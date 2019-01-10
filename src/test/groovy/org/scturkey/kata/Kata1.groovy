@@ -41,16 +41,8 @@ class Kata1 extends Specification {
             def splittedTransaction = it.split(",")
             def identifier = splittedTransaction[0] + splittedTransaction[1] + splittedTransaction[2]
             def transactionAmount = valueOf(splittedTransaction[3])
-
-
-            def sumOfTransaction = sumOfTransactionAmountByUser[identifier]
-
-            if (sumOfTransaction) {
-                sumOfTransactionAmountByUser[identifier] = sumOfTransaction + transactionAmount
-            } else {
-                sumOfTransactionAmountByUser[identifier] = transactionAmount
-            }
-
+            
+            sumOfTransactionAmountByUser."$identifier" = (sumOfTransactionAmountByUser."$identifier" ?: 0) + transactionAmount
             creditLimit < sumOfTransactionAmountByUser[identifier]
         }
     }
