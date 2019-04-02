@@ -10,6 +10,8 @@ A strike is when the player knocks down all 10 pins on his first try. The bonus 
 
 In the tenth frame a player who rolls a spare or strike is allowed to roll the extra balls to complete the frame. However no more than three balls can be rolled in tenth frame.
 
+![Bowling Game](bowling-game.png)
+
 ## Algorithm
 * Game
     * contains 10 Frames. Each 9 frame...
